@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mitchells Autumn Newsletter</title>
+<style>
+body { margin:0; background:#111; display:flex; justify-content:center; align-items:center; height:100vh; }
+#book { width:80%; max-width:1000px; }
+img { width:100%; display:none; box-shadow:0 10px 30px rgba(0,0,0,.6); }
+img.active { display:block; }
+.controls { position:fixed; bottom:20px; width:100%; text-align:center; }
+button {
+  background:#2aa876; border:none; color:white; padding:10px 20px;
+  margin:0 10px; font-size:16px; cursor:pointer; border-radius:4px;
+}
+</style>
+</head>
+<body>
+<div id="book">
+<img src="page_1.jpg">
+<img src="page_2.jpg">
+<img src="page_3.jpg">
+<img src="page_4.jpg">
+<img src="page_5.jpg">
+<img src="page_6.jpg">
+<img src="page_7.jpg">
+<img src="page_8.jpg">
+<img src="page_9.jpg">
+<img src="page_10.jpg">
+<img src="page_11.jpg">
+
+</div>
+<div class="controls">
+<button onclick="prev()">Previous</button>
+<button onclick="next()">Next</button>
+</div>
+
+<script>
+let pages = document.querySelectorAll("img");
+let index = 0;
+pages[index].classList.add("active");
+
+function show(i){
+  pages[index].classList.remove("active");
+  index = (i + pages.length) % pages.length;
+  pages[index].classList.add("active");
+}
+function next(){ show(index+1); }
+function prev(){ show(index-1); }
+</script>
+</body>
+</html>
