@@ -6,69 +6,68 @@
 
 <style>
   body {
-    margin:0;
-    background:#111;
-    height:100vh;
-    overflow:hidden;
-    font-family:Arial, sans-serif;
+    margin: 0;
+    background: #111;
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
   }
 
-  /* Scrollable container */
+  /* Scroll container */
   #viewport {
-    width:100%;
-    height:100vh;
-    overflow:auto;
-    display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    padding:40px 0;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 0;
   }
 
   /* Book container */
   #book {
-    width:90%;
-    max-width:1200px;
+    width: 1000px;   /* Start size */
   }
 
   img {
-    width:100%;
-    display:none;
-    box-shadow:0 10px 30px rgba(0,0,0,.6);
+    width: 100%;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,.6);
   }
 
   img.active {
-    display:block;
+    display: block;
   }
 
   /* Controls */
   .controls {
-    position:fixed;
-    bottom:20px;
-    width:100%;
-    text-align:center;
-    display:flex;
-    justify-content:center;
-    gap:10px;
-    flex-wrap:wrap;
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   button {
-    background:#2aa876;
-    border:none;
-    color:white;
-    padding:10px 16px;
-    font-size:16px;
-    cursor:pointer;
-    border-radius:4px;
+    background: #2aa876;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
   }
 
   input[type="range"] {
-    width:200px;
+    width: 220px;
   }
 
   #zoomLabel {
-    color:white;
-    min-width:60px;
+    color: white;
+    min-width: 70px;
   }
 </style>
 </head>
@@ -94,7 +93,12 @@
   <button onclick="next()">Next</button>
 
   <button onclick="zoomOut()">−</button>
-  <input id="zoom" type="range" min="80" max="200" value="100" oninput="setZoom(this.value)">
+
+  <input id="zoom" type="range"
+         min="600" max="2000"
+         value="1000"
+         oninput="setZoom(this.value)">
+
   <button onclick="zoomIn()">+</button>
 
   <span id="zoomLabel">100%</span>
@@ -106,32 +110,34 @@
   let index = 0;
   pages[index].classList.add("active");
 
-  function show(i){
+  function show(i) {
     pages[index].classList.remove("active");
     index = (i + pages.length) % pages.length;
     pages[index].classList.add("active");
   }
 
-  function next(){ show(index+1); }
-  function prev(){ show(index-1); }
+  function next() { show(index + 1); }
+  function prev() { show(index - 1); }
 
-  /* Zoom Logic (REAL resize, not transform) */
+  /* Zoom Logic (Real Resize) */
   const book = document.getElementById("book");
   const zoomSlider = document.getElementById("zoom");
   const zoomLabel = document.getElementById("zoomLabel");
 
-  function setZoom(val){
-    book.style.width = val + "%";
-    zoomLabel.textContent = val + "%";
+  function setZoom(val) {
+    book.style.width = val + "px";
+
+    let percent = Math.round((val / 1000) * 100);
+    zoomLabel.textContent = percent + "%";
   }
 
-  function zoomIn(){
-    zoomSlider.value = Math.min(200, Number(zoomSlider.value) + 10);
+  function zoomIn() {
+    zoomSlider.value = Math.min(2000, Number(zoomSlider.value) + 100);
     setZoom(zoomSlider.value);
   }
 
-  function zoomOut(){
-    zoomSlider.value = Math.max(80, Number(zoomSlider.value) - 10);
+  function zoomOut() {
+    zoomSlider.value = Math.max(600, Number(zoomSlider.value) - 100);
     setZoom(zoomSlider.value);
   }
 
@@ -140,3 +146,4 @@
 
 </body>
 </html>
+
